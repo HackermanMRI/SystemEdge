@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item
+        android:id="@+id/dashboard"
+        android:icon="@drawable/dashboard"
+        />
+    <item
+        android:id="@+id/system"
+        android:icon="@drawable/hardware"
+        />
+    <item
+        android:id="@+id/battery"
+        android:icon="@drawable/battery"
+        />
+    <item
+        android:id="@+id/network"
+        android:icon="@drawable/internet"
+         />
+    <item
+        android:id="@+id/apps"
+        android:icon="@drawable/apps"
+        />
+
+
+</menu>
