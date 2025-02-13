@@ -18,7 +18,11 @@
         android:backgroundTint="@android:color/transparent"
         android:elevation="0dp"
         app:menu="@menu/bottom_nav_menu"
-        android:layout_marginBottom="-60dp"/>
+        android:layout_marginBottom="-5dp"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="30dp"
+        app:itemRippleColor="@color/cardview_shadow_end_color">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -26,14 +30,11 @@
         android:layout_height="wrap_content"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
-        app:fabCradleMargin="12dp"
-        app:fabCradleVerticalOffset="14dp"
+        app:fabCradleMargin="8dp"
+        app:fabCradleVerticalOffset="12dp"
         app:fabCradleRoundedCornerRadius="6dp"
         android:layout_gravity="bottom">
-
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
@@ -41,9 +42,8 @@
         app:layout_anchor="@id/bottomAppBar"
         android:src="@drawable/speedometer"
         android:elevation="0dp"
-        android:layout_marginBottom="-20dp"/>
-
-
+        android:layout_marginBottom="-20dp"
+        app:itemIconTint="@color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
