@@ -4,14 +4,16 @@
     <item
         android:id="@+id/dashboard"
         android:icon="@drawable/dashboard"
+        android:checked="true"
         />
     <item
         android:id="@+id/system"
         android:icon="@drawable/hardware"
         />
     <item
-        android:id="@+id/battery"
-        android:icon="@drawable/battery"
+        android:id="@+id/blank"
+        android:title=""
+        android:enabled="false"
         />
     <item
         android:id="@+id/network"
