@@ -37,7 +37,37 @@
             app:layout_constraintHorizontal_bias="0.933"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.019" />
+            app:layout_constraintVertical_bias="0.019" >
+
+            <ImageView
+                android:id="@+id/android_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/android_icon_w"
+                android:translationX="75dp"
+                android:translationY="5dp" />
+
+            <TextView
+                android:id="@+id/os_version_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="android version"
+                android:textColor="@color/white"
+                android:translationX="45dp"
+                android:translationY="28dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/os_version_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="android version name"
+                android:textColor="@color/white"
+                android:translationX="35dp"
+                android:translationY="50dp"/>
+
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ram_usage_cardview"
@@ -49,7 +79,12 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/chipset_cardView"
@@ -69,7 +104,7 @@
                 android:id="@+id/chipset_cardview_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="text here"
+                android:text="chipset name here"
                 android:textColor="@color/black"
                 android:gravity="center"
                 />

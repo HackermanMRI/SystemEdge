@@ -20,6 +20,7 @@ public class DashboardFragment extends Fragment {
     public DashboardFragment() {
         // field for constructors
     }
+
     // chipset raw info
     private String getChipsetInfo() {
         String hardware = "";
@@ -36,7 +37,6 @@ public class DashboardFragment extends Fragment {
         }
         return hardware;
     }
-
 
     // chipset polished info
     private String getReadableChipset(String hardwareId) {
@@ -104,7 +104,6 @@ public class DashboardFragment extends Fragment {
                 return chipsetMap.get(key);
             }
         }
-
         return "Unknown Chipset (" + hardwareId + ")";
     }
 
@@ -118,13 +117,23 @@ public class DashboardFragment extends Fragment {
         //code starts here <<<<<<<<<<<<<
 
 
+        //chipset segment
         TextView chipsetText = view.findViewById(R.id.chipset_cardview_text);
         String rawHardware = getChipsetInfo();
         String readableChipset = getReadableChipset(rawHardware);
         chipsetText.setText(readableChipset);
-
-
         return view;
+
+        //os segment
+
+
+
+
+
+
+
+
+
     }
 
 
