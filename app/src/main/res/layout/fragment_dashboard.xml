@@ -18,12 +18,58 @@
             android:layout_height="79dp"
             app:cardBackgroundColor="#1D254E"
             app:cardCornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
+            app:layout_constraintBottom_toTopOf="@+id/ram_usage_cardview"
+            app:layout_constraintEnd_toStartOf="@+id/os_version_cardview"
+            app:layout_constraintHorizontal_bias="0.578"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.019" />
+            app:layout_constraintVertical_bias="0.551">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/device_icon"
+                    android:layout_width="43dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/smartphone_w"
+
+                    app:layout_constraintBottom_toTopOf="@+id/manufacturer_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/manufacturer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="manufacturer"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/model_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="model name"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/manufacturer_name"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/os_version_cardview"
@@ -32,39 +78,54 @@
             app:cardBackgroundColor="#1D254E"
             app:cardCornerRadius="16dp"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ram_usage_cardview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.933"
+            app:layout_constraintHorizontal_bias="0.907"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.019" >
+            app:layout_constraintVertical_bias="0.592">
 
-            <ImageView
-                android:id="@+id/android_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/android_icon_w"
-                android:translationX="75dp"
-                android:translationY="5dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/os_version_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="android version"
-                android:textColor="@color/white"
-                android:translationX="45dp"
-                android:translationY="28dp"
-                android:textSize="16sp"/>
+                <ImageView
+                    android:id="@+id/android_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/android_icon_w"
+                    app:layout_constraintBottom_toTopOf="@+id/os_version_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/os_version_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="android version name"
-                android:textColor="@color/white"
-                android:translationX="35dp"
-                android:translationY="50dp"/>
+                <TextView
+                    android:id="@+id/os_version_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="android version"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/os_version_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="android version name"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.513"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/os_version_number"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>
@@ -73,15 +134,15 @@
             android:id="@+id/ram_usage_cardview"
             android:layout_width="366dp"
             android:layout_height="136dp"
-            android:layout_marginTop="108dp"
             app:cardBackgroundColor="#022E47"
 
             app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.143">
 
 
         </androidx.cardview.widget.CardView>
@@ -90,24 +151,23 @@
             android:id="@+id/chipset_cardView"
             android:layout_width="365dp"
             android:layout_height="35dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="29dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.363"
+            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ram_usage_cardview">
+            app:layout_constraintTop_toBottomOf="@+id/ram_usage_cardview"
+            app:layout_constraintVertical_bias="0.017">
 
             <TextView
                 android:id="@+id/chipset_cardview_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="chipset name here"
-                android:textColor="@color/black"
                 android:gravity="center"
-                />
+                android:text="chipset name here"
+                android:textColor="@color/black" />
+
         </androidx.cardview.widget.CardView>
 
 

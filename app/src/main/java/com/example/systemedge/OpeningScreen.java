@@ -92,7 +92,8 @@ private void checkAndRequestPermissions() {
                 proceedToMainActivity();
             } else {
                 // At least one permission was denied
-                handlePermissionDenial();
+                Toast.makeText(this, "This app cannot function properly without all permissions",Toast.LENGTH_LONG).show();
+                proceedToMainActivity();
             }
         }
     }
@@ -108,15 +109,6 @@ private void checkAndRequestPermissions() {
             }
         }
         return true;
-    }
-
-    private void handlePermissionDenial() {
-        Toast.makeText(this,
-                "This app cannot function without all permissions",
-                Toast.LENGTH_LONG).show();
-
-        // Close the app completely
-        finishAffinity();
     }
 
 
