@@ -196,7 +196,6 @@ public class DashboardFragment extends Fragment {
 
 
 
-
 //oncreateView method
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
