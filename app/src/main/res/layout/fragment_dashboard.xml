@@ -135,14 +135,69 @@
             android:layout_width="366dp"
             android:layout_height="136dp"
             app:cardBackgroundColor="#022E47"
-
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.143">
+            app:layout_constraintVertical_bias="0.141">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.example.systemedge.CircularProgressView
+                    android:id="@+id/ram_usage_progrssbar"
+                    android:layout_width="112dp"
+                    android:layout_height="109dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="248dp"
+                    android:layout_marginBottom="22dp" />
+
+                <TextView
+                    android:id="@+id/progress_percent"
+                    android:layout_width="67dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="271dp"
+                    android:layout_marginBottom="58dp"
+                    android:gravity="center"
+                    android:text="100%"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ram_total"
+                    android:layout_width="114dp"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="113dp"
+                    android:layout_marginEnd="247dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center"
+                    android:text="00000 MB Total"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+
+            </RelativeLayout>
 
 
         </androidx.cardview.widget.CardView>

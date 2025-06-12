@@ -1,5 +1,6 @@
 package com.example.systemedge;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,19 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.os.Build;
+import android.os.Handler;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import android.app.ActivityManager;
+
 
 public class DashboardFragment extends Fragment {
 
-    TextView chipsetText,manufacturerName,modelName;
+    private Handler ramUpdateHandler;
+    private final int REFRESH_DELAY_MS = 1000;
 
     public DashboardFragment() {
         // field for constructors
     }
+
+//User Defined Methods
+
     // chipset raw info
     private String getChipsetInfo() {
       String hardware = "";
@@ -171,9 +179,6 @@ public class DashboardFragment extends Fragment {
         return codename;
     }
 
-
-
-
     public static String getCleanModelName() {
         String model = Build.MODEL;
         if (MODEL_MAPPINGS.containsKey(model)) {
@@ -182,64 +187,7 @@ public class DashboardFragment extends Fragment {
         return model;
     }
 
-
-//for capitalization of first letter
-    public static String capitalizeFirstLetterOnly(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-        return input.substring(0, 1).toUpperCase() + input.substring(1);
-    }
-
-
-
-
-
-
-//oncreateView method
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-//code starts here <<<<<<<<<<<<<
-
-
-//chipset segment
-        TextView chipsetText = view.findViewById(R.id.chipset_cardview_text);
-        String rawHardware = getChipsetInfo();
-        String readableChipset = getReadableChipset(rawHardware);
-        chipsetText.setText(readableChipset);
-
-
-//device segment
-        TextView manufacturerName = view.findViewById(R.id.manufacturer_name);
-        TextView modelName = view.findViewById(R.id.model_name);
-        String brand_name = capitalizeFirstLetterOnly(Build.BRAND);
-        manufacturerName.setText(brand_name);
-        String mod_name = getCleanModelName();
-        modelName.setText(mod_name);
-
-
-//android version segment
-        TextView osNumeber = view.findViewById(R.id.os_version_number);
-        TextView osName = view.findViewById(R.id.os_version_name);
-        osNumeber.setText("Android " + Build.VERSION.RELEASE);
-        String codename = getFormattedAndroidVersion();
-        osName.setText(codename);
-
-
-
-
-
-
-
-
-        return view;
-    }
-
-
-
-    // model name infos
+    //model polished info
     private static final Map<String, String> MODEL_MAPPINGS = new HashMap<String, String>() {{
         // Google Pixel Series
         put("G-2PW4100", "Pixel");
@@ -579,4 +527,85 @@ public class DashboardFragment extends Fragment {
     }};
 
 
-}
+    //for capitalization of first letter
+    public static String capitalizeFirstLetterOnly(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+
+
+//oncreateView method
+        @Override
+        public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+            View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+//code starts here <<<<<<<<<<<<<
+
+
+//chipset segment
+            TextView chipsetText = view.findViewById(R.id.chipset_cardview_text);
+            String rawHardware = getChipsetInfo();
+            String readableChipset = getReadableChipset(rawHardware);
+            chipsetText.setText(readableChipset);
+
+
+//device segment
+            TextView manufacturerName = view.findViewById(R.id.manufacturer_name);
+            TextView modelName = view.findViewById(R.id.model_name);
+            String brand_name = capitalizeFirstLetterOnly(Build.BRAND);
+            manufacturerName.setText(brand_name);
+            String mod_name = getCleanModelName();
+            modelName.setText(mod_name);
+
+
+//android version segment
+            TextView osNumeber = view.findViewById(R.id.os_version_number);
+            TextView osName = view.findViewById(R.id.os_version_name);
+            osNumeber.setText("Android " + Build.VERSION.RELEASE);
+            String codename = getFormattedAndroidVersion();
+            osName.setText(codename);
+
+
+            //circuler progress view
+            CircularProgressView ramCircularProgress = view.findViewById(R.id.ram_usage_progrssbar);
+            TextView progressText = view.findViewById(R.id.progress_percent);
+            TextView totalRam = view.findViewById(R.id.ram_total);
+            ramUpdateHandler = new Handler();
+            ramUpdateHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    ActivityManager activityManager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
+                    if (activityManager != null) {
+                        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+                        activityManager.getMemoryInfo(memoryInfo);
+
+                        long total_ram_mb = memoryInfo.totalMem / (1024 * 1024);
+                        long used_ram_mb = (memoryInfo.totalMem - memoryInfo.availMem) / (1024 * 1024);
+                        int ramPercentage = (int) ((used_ram_mb * 100) / total_ram_mb);
+                        ramCircularProgress.setProgress(ramPercentage);
+                        progressText.setText(ramPercentage + "%");
+                        totalRam.setText(total_ram_mb + " MB RAM Total");
+                    }
+                    ramUpdateHandler.postDelayed(this, REFRESH_DELAY_MS); // Loop every 1 second
+                }
+            }, REFRESH_DELAY_MS);
+
+
+            //live ram usage graph
+
+
+
+
+
+
+
+
+
+            return view;
+        }
+
+    }
