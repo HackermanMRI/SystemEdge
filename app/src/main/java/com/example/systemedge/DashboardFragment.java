@@ -2,20 +2,31 @@ package com.example.systemedge;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import android.os.Build;
+import android.os.Handler;
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.os.Build;
-import android.os.Handler;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import java.text.DecimalFormat;
+
 import android.app.ActivityManager;
 
 
@@ -535,6 +546,13 @@ public class DashboardFragment extends Fragment {
         return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 
+    //Byte to Gigabyte conversion
+    private String formatSize(long size) {
+        final double BYTES_IN_GB = 1024.0 * 1024.0 * 1024.0;
+        DecimalFormat df = new DecimalFormat("#.#"); // One decimal place for a cleaner look
+        return df.format(size / BYTES_IN_GB) + " GB";
+    }
+
 
 
 //oncreateView method
@@ -569,8 +587,11 @@ public class DashboardFragment extends Fragment {
             osName.setText(codename);
 
 
-            //circuler progress view
+//circuler progress view and live ram usage graph
             CircularProgressView ramCircularProgress = view.findViewById(R.id.ram_usage_progrssbar);
+            RamLineGraphView ramLineGraphView = view.findViewById(R.id.ramLineGraph);
+            TextView graphUsedRam = view.findViewById(R.id.used_ram);
+            TextView graphFreeRam = view.findViewById(R.id.free_ram);
             TextView progressText = view.findViewById(R.id.progress_percent);
             TextView totalRam = view.findViewById(R.id.ram_total);
             ramUpdateHandler = new Handler();
@@ -589,13 +610,41 @@ public class DashboardFragment extends Fragment {
                         ramCircularProgress.setProgress(ramPercentage);
                         progressText.setText(ramPercentage + "%");
                         totalRam.setText(total_ram_mb + " MB RAM Total");
+
+                        ramLineGraphView.updateRamData(used_ram_mb);
+                        graphUsedRam.setText(used_ram_mb + " MB Used");
+                        graphFreeRam.setText((total_ram_mb - used_ram_mb) + " MB Free");
                     }
-                    ramUpdateHandler.postDelayed(this, REFRESH_DELAY_MS); // Loop every 1 second
+                    ramUpdateHandler.postDelayed(this, REFRESH_DELAY_MS);
                 }
             }, REFRESH_DELAY_MS);
 
 
-            //live ram usage graph
+//Storage Information
+            TextView usedStorage = view.findViewById(R.id.used_storage);
+            TextView totalStorage = view.findViewById(R.id.total_storage);
+            TextView storagePercentage = view.findViewById(R.id.storage_Percentage);
+            ProgressBar storageProgressBar = view.findViewById(R.id.storage_progress_bar);
+            File path = Environment.getDataDirectory();
+            StatFs stat = new StatFs(path.getPath());
+
+            long blockSize = stat.getBlockSizeLong();
+            long totalBlocks = stat.getBlockCountLong();
+            long availableBlocks = stat.getAvailableBlocksLong();
+
+            long totalSize = totalBlocks * blockSize;
+            long freeSize = availableBlocks * blockSize;
+            long usedSize = totalSize - freeSize;
+            int usedPercentage = (int) ((usedSize * 100) / totalSize);
+
+            usedStorage.setText("Used : " + formatSize(usedSize));
+            totalStorage.setText("Total : " + formatSize(totalSize));
+            storagePercentage.setText(usedPercentage + "%");
+            storageProgressBar.setProgress(usedPercentage);
+
+
+
+
 
 
 
@@ -607,5 +656,4 @@ public class DashboardFragment extends Fragment {
 
             return view;
         }
-
     }

@@ -49,7 +49,7 @@ public class CircularProgressView extends View {
         // Draw background circle (full 360 degrees)
         canvas.drawArc(oval, 90, 360, false, backgroundPaint);
 
-        // Draw progress arc starting from 225 deg (bottom-left), sweeping clockwise
+        // Draw progress arc starting from 90 deg (bottom), sweeping clockwise
         canvas.drawArc(oval, 90, (360 * progress / 100), false, progressPaint);
     }
 

@@ -192,9 +192,58 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center"
                     android:text="00000 MB Total"
+                    android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
+
+
+                <TextView
+                    android:id="@+id/used_ram"
+                    android:layout_width="85dp"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="262dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginBottom="111dp"
+                    android:gravity="right"
+                    android:text="0000 MB Used"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/free_ram"
+                    android:layout_width="113dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="234dp"
+                    android:layout_marginTop="113dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginBottom="7dp"
+                    android:gravity="right"
+                    android:text="0000 MB Free"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <com.example.systemedge.RamLineGraphView
+                    android:id="@+id/ramLineGraph"
+                    android:layout_width="206dp"
+                    android:layout_height="85dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="141dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginBottom="30dp" />
 
 
             </RelativeLayout>
@@ -221,7 +270,151 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="chipset name here"
-                android:textColor="@color/black" />
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/storage_cardView"
+            android:layout_width="365dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipset_cardView"
+            app:layout_constraintVertical_bias="0.0">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/storageIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="304dp"
+                    android:layout_marginBottom="24dp"
+                    android:src="@drawable/storage"
+                    app:tint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/storageTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="163dp"
+                    android:layout_marginBottom="61dp"
+                    android:text="Internal Storage"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/storage_Percentage"
+                    android:layout_width="42dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="313dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="42dp"
+                    android:text="100%"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <ProgressBar
+                    android:id="@+id/storage_progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="228dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="33dp"
+                    android:layout_marginEnd="65dp"
+                    android:layout_marginBottom="33dp"
+                    android:progress="70"
+                    android:progressBackgroundTint="#1D254E"
+                    android:progressTint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/used_storage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="59dp"
+                    android:layout_marginEnd="163dp"
+                    android:layout_marginBottom="21dp"
+                    android:text="Used : 000.00 GB"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/total_storage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="189dp"
+                    android:layout_marginTop="58dp"
+                    android:layout_marginEnd="46dp"
+                    android:layout_marginBottom="22dp"
+                    android:text="Total : 000.00 GB"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/battery_cardView"
+            android:layout_width="365dp"
+            android:layout_height="96dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/storage_cardView"
+            app:layout_constraintVertical_bias="0.043">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
