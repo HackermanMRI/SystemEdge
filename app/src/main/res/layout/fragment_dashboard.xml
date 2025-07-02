@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+    tools:context=".DashboardFragment"
+    tools:openDrawer="end">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -344,15 +346,15 @@
                 <TextView
                     android:id="@+id/storage_percentage"
                     android:layout_width="42dp"
-                    android:layout_height="16dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="313dp"
-                    android:layout_marginTop="38dp"
+                    android:layout_marginTop="35dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="42dp"
+                    android:layout_marginBottom="41dp"
                     android:text="100%"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -377,16 +379,16 @@
 
                 <TextView
                     android:id="@+id/used_storage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17dp"
+                    android:layout_width="130dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="72dp"
-                    android:layout_marginTop="59dp"
+                    android:layout_marginTop="58dp"
                     android:layout_marginEnd="163dp"
-                    android:layout_marginBottom="21dp"
+                    android:layout_marginBottom="16dp"
                     android:text="Used : 000.00 GB"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -394,16 +396,16 @@
 
                 <TextView
                     android:id="@+id/total_storage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17dp"
+                    android:layout_width="131dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="189dp"
+                    android:layout_marginStart="199dp"
                     android:layout_marginTop="58dp"
-                    android:layout_marginEnd="46dp"
-                    android:layout_marginBottom="22dp"
+                    android:layout_marginEnd="35dp"
+                    android:layout_marginBottom="16dp"
                     android:text="Total : 000.00 GB"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -483,16 +485,16 @@
 
                 <TextView
                     android:id="@+id/battery_percentage"
-                    android:layout_width="42dp"
-                    android:layout_height="16dp"
+                    android:layout_width="41dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="313dp"
-                    android:layout_marginTop="38dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="42dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginBottom="39dp"
                     android:text="100%"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
@@ -568,7 +570,6 @@
 
 
             </RelativeLayout>
-
 
 
         </androidx.cardview.widget.CardView>
@@ -718,11 +719,12 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/sensor_cardview"
-            android:layout_width="170dp"
+            android:layout_width="150dp"
             android:layout_height="69dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="6dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/apps_cardview"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -731,14 +733,14 @@
             app:layout_constraintVertical_bias="0.09">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="171dp"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/sensor_icon"
                     android:layout_width="49dp"
                     android:layout_height="41dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:src="@drawable/wifi_signal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -747,9 +749,10 @@
 
                 <TextView
                     android:id="@+id/sensor_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="46dp"
+                    android:layout_height="29dp"
                     android:layout_marginStart="8dp"
+                    android:gravity="center"
                     android:text="999"
                     android:textColor="@color/black"
                     android:textSize="22sp"
@@ -777,10 +780,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/apps_cardview"
-            android:layout_width="170dp"
+            android:layout_width="150dp"
             android:layout_height="69dp"
+            android:layout_marginRight="60dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/sensor_cardview"
@@ -795,7 +799,7 @@
                     android:id="@+id/app_icon"
                     android:layout_width="49dp"
                     android:layout_height="41dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:src="@drawable/play_store"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -804,9 +808,10 @@
 
                 <TextView
                     android:id="@+id/app_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="46dp"
+                    android:layout_height="29dp"
                     android:layout_marginStart="8dp"
+                    android:gravity="center"
                     android:text="999"
                     android:textColor="@color/black"
                     android:textSize="22sp"
@@ -832,5 +837,54 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="50dp"
+            android:layout_height="69dp"
+            android:layout_marginTop="8dp"
+            android:foregroundGravity="center"
+            app:cardCornerRadius="12dp"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/apps_cardview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toEndOf="@+id/apps_cardview"
+            app:layout_constraintTop_toBottomOf="@+id/network_cardview"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/settings_button"
+                    style="@style/Widget.App.FloatingActionButton.Rectangular"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_menu"
+                    app:backgroundTint="#DDE7F6"
+                    app:elevation="6dp"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#022E47" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_menu"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"  />
+
+</androidx.drawerlayout.widget.DrawerLayout>

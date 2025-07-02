@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu"
+            android:title="Settings"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu"
+            android:title="Developer Info"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        <item
+            android:id="@+id/nav_rate_us"
+            android:icon="@drawable/ic_menu"
+            android:title="Send Feedback"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+    </group>
+</menu>

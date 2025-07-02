@@ -1,64 +1,79 @@
 package com.example.systemedge;
 
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SystemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SystemFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SystemFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SystemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SystemFragment newInstance(String param1, String param2) {
-        SystemFragment fragment = new SystemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the new layout with TabLayout and ViewPager2
         return inflater.inflate(R.layout.fragment_system, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Set up the adapter
+        SystemViewPagerAdapter adapter = new SystemViewPagerAdapter(this);
+        ViewPager2 viewPager = view.findViewById(R.id.view_pager);
+        viewPager.setAdapter(adapter);
+
+        //transition
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setPageTransformer(new DepthPageTransformer());
+
+        // Link the TabLayout and the ViewPager2
+        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            // Set the title for each tab
+            switch (position) {
+                case 0: tab.setText("Device"); break;
+                case 1: tab.setText("Software"); break;
+                case 2: tab.setText("Connectivity"); break;
+                case 3: tab.setText("Location"); break;
+                case 4: tab.setText("Apps"); break;
+            }
+        }).attach();
+
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                // Animate the tab selection to the new position
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+        // 4. NEW: Add a listener on the TabLayout to update the ViewPager when a tab is clicked by the user.
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (viewPager.getCurrentItem() != tab.getPosition()) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // No action needed
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // No action needed
+            }
+        });
+
     }
 }

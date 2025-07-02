@@ -14,6 +14,9 @@ import android.hardware.SensorManager;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,6 +35,7 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -60,6 +64,9 @@ import java.text.DecimalFormat;
 import android.app.ActivityManager;
 
 import org.w3c.dom.Text;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 
 public class DashboardFragment extends Fragment {
@@ -889,7 +896,7 @@ public class DashboardFragment extends Fragment {
         TextView manufacturerName = view.findViewById(R.id.manufacturer_name);
         TextView modelName = view.findViewById(R.id.model_name);
 
-        String brand_name = capitalizeFirstLetterOnly(Build.BRAND);
+        String brand_name = capitalizeFirstLetterOnly(Build.MANUFACTURER);
         manufacturerName.setText(brand_name);
         String mod_name = getCleanModelName();
         modelName.setText(mod_name);
@@ -1075,6 +1082,37 @@ public class DashboardFragment extends Fragment {
 
  //network segment
         networkUpdateHandler = new Handler(Looper.getMainLooper());
+
+
+//drawer buttons setup
+        DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
+        FloatingActionButton settingsButton = view.findViewById(R.id.settings_button);
+        NavigationView navigationView = view.findViewById(R.id.navigation_view);
+
+        settingsButton.setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                drawerLayout.closeDrawer(GravityCompat.END);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_settings) {
+
+            } else if (id == R.id.nav_about) {
+
+            } else if (id == R.id.nav_rate_us) {
+
+            }
+
+            // Close the drawer after an item is tapped
+
+            return true;
+        });
+
 
 
 

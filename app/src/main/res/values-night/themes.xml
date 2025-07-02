@@ -14,4 +14,19 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/my_app_font</item>
     </style>
+
+    <style name="App.TabLayout" parent="Widget.MaterialComponents.TabLayout.PrimarySurface">
+        <item name="tabIndicatorAnimationMode">fade</item>
+        <item name="tabIndicatorHeight">2dp</item>
+    </style>
+
+    <style name="Widget.App.FloatingActionButton.Rectangular" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.Rectangular</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Rectangular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
 </resources>
