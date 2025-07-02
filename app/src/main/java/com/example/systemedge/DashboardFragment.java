@@ -1,39 +1,78 @@
 package com.example.systemedge;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.os.Build;
 import android.os.Handler;
+import android.os.BatteryManager;
+import android.os.Looper;
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Gravity;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileFilter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Locale;
+import java.util.regex.Pattern;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiInfo;
+import android.net.TrafficStats;
+
+import android.telephony.TelephonyManager;
 
 import java.text.DecimalFormat;
 
 import android.app.ActivityManager;
 
+import org.w3c.dom.Text;
+
 
 public class DashboardFragment extends Fragment {
 
-    private Handler ramUpdateHandler;
+    private Handler ramUpdateHandler, cpuUpdateHandler, networkUpdateHandler;
+    private BroadcastReceiver batteryInfoReceiver;
     private final int REFRESH_DELAY_MS = 1000;
+    private long lastTxBytes = 0;
+    private long lastRxBytes = 0;
+    private long lastTime = 0;
+    private final ArrayList<TextView> coreSpeedTextViews = new ArrayList<>();
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
 
     public DashboardFragment() {
         // field for constructors
@@ -43,7 +82,7 @@ public class DashboardFragment extends Fragment {
 
     // chipset raw info
     private String getChipsetInfo() {
-      String hardware = "";
+        String hardware = "";
         try (BufferedReader reader = new BufferedReader(new FileReader("/proc/cpuinfo"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -553,107 +592,551 @@ public class DashboardFragment extends Fragment {
         return df.format(size / BYTES_IN_GB) + " GB";
     }
 
+    // get cpu core numbers
+    private int getNumberOfCores() {
+        try {
+            // Get the list of files in the CPU directory
+            File[] files = new File("/sys/devices/system/cpu/").listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File pathname) {
+                    // Check if the file name matches the pattern "cpu[0-9]+"
+                    return Pattern.matches("cpu[0-9]+", pathname.getName());
+                }
+            });
+            // Return the number of files found, or 1 as a fallback
+            return files != null ? files.length : 1;
+        } catch (Exception e) {
+            // Fallback to 1 if there's an error
+            return 1;
+        }
+    }
 
 
-//oncreateView method
+    //read the core frequency
+    private int readCoreFrequency(int coreNumber) {
+        // Path to the file that holds the current frequency for a given core
+        String path = "/sys/devices/system/cpu/cpu" + coreNumber + "/cpufreq/scaling_cur_freq";
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            // The value is in KHz, so divide by 1000 to get MHz
+            return Integer.parseInt(reader.readLine()) / 1000;
+        } catch (IOException | NumberFormatException e) {
+            // This can happen if the core is offline
+            return -1;
+        }
+    }
+
+
+    //read cpu temperature
+    private float getCpuTemperature() {
+        String[] tempPaths = {
+                "/sys/class/thermal/thermal_zone0/temp",
+                "/sys/class/thermal/thermal_zone1/temp",
+                // Add other common paths if needed
+        };
+        for (String path : tempPaths) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+                float temp = Float.parseFloat(reader.readLine());
+                // The value is often in millidegrees Celsius, so divide by 1000
+                return temp / 1000.0f;
+            } catch (Exception e) {
+                // Ignore and try the next path
+            }
+        }
+        return -1F; // Return -1 if no path was found
+    }
+
+    //cpu runnable
+    private final Runnable cpuUpdateRunnable = new Runnable() {
         @Override
-        public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-            View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        public void run() {
+            // Make sure the fragment view is still available
+            if (getView() == null) return;
+
+            // Update Core Speeds on the UI
+            for (int i = 0; i < coreSpeedTextViews.size(); i++) {
+                int currentFreq = readCoreFrequency(i);
+                TextView coreTextView = coreSpeedTextViews.get(i);
+                if (currentFreq != -1) {
+                    coreTextView.setText(currentFreq + " MHz");
+                } else {
+                    coreTextView.setText("Offline");
+                }
+            }
+
+            // Update CPU Temperature on the UI
+            TextView cpuTemp = getView().findViewById(R.id.cpu_temp_value);
+            float temp = getCpuTemperature();
+            if (temp != -1F) {
+                cpuTemp.setText(String.format(Locale.US, "CPU Temperature: %.1f °C", temp));
+            } else {
+                cpuTemp.setText("unknown");
+            }
+
+            // Schedule the next update
+            if (cpuUpdateHandler != null) {
+                cpuUpdateHandler.postDelayed(this, REFRESH_DELAY_MS);
+            }
+        }
+    };
+
+
+    //network available or not
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        }
+        return false;
+    }
+
+    // get wifi or mobile data info
+    private String getNetworkSource() {
+        //ImageView wifiIcon = getView().findViewById(R.id.wifi_icon);
+        //ImageView dataIcon = getView().findViewById(R.id.data_icon);
+        ImageView connectIcon = getView().findViewById(R.id.connection_icon);
+
+        if (getContext() == null) {
+            return "N/A";
+        }
+        ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return "N/A";
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                //wifiIcon.setVisibility(View.VISIBLE);
+                //dataIcon.setVisibility(View.GONE);
+                //disconnectIcon.setVisibility(View.GONE);
+                connectIcon.setImageResource(R.drawable.wifi);
+
+                final WifiManager wifiManager = (WifiManager) requireContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                if (wifiManager != null) {
+                    final WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                    if (wifiInfo != null && wifiInfo.getSSID() != null && !wifiInfo.getSSID().isEmpty()) {
+
+                        if (wifiInfo.getSSID().contains("<unknown ssid>")) {
+                            return "Turn on Location";
+                        } else {
+                            // The SSID is often returned with surrounding quotes, so we remove them.
+                            return wifiInfo.getSSID().replace("\"", "");
+                        }
+                    }
+                }
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                //wifiIcon.setVisibility(View.GONE);
+                //dataIcon.setVisibility(View.VISIBLE);
+                //disconnectIcon.setVisibility(View.GONE);
+                connectIcon.setImageResource(R.drawable.mobile_data);
+
+                TelephonyManager tm = (TelephonyManager) requireContext().getSystemService(Context.TELEPHONY_SERVICE);
+                // Return the network operator name (e.g., "T-Mobile")
+                if (tm != null) return tm.getNetworkOperatorName();
+            }
+        }
+        return "N/A";
+    }
+
+    //format internet speed
+    private String formatSpeed(double speedInBytes) {
+        if (speedInBytes < 1024) {
+            return String.format(Locale.US, "%.1f B/s", speedInBytes);
+        } else if (speedInBytes < 1024 * 1024) {
+            return String.format(Locale.US, "%.1f KB/s", speedInBytes / 1024);
+        } else {
+            return String.format(Locale.US, "%.1f MB/s", speedInBytes / (1024 * 1024));
+        }
+    }
+
+    //network update runnable
+    private final Runnable networkUpdateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (getView() == null || getContext() == null) return;
+
+            // Find the TextViews
+            TextView networkStatus = getView().findViewById(R.id.network_status);
+            TextView networkSource = getView().findViewById(R.id.network_source);
+            TextView pingValue = getView().findViewById(R.id.ping);
+            TextView netSpeed = getView().findViewById(R.id.net_speed);
+            //ImageView wifiIcon = getView().findViewById(R.id.wifi_icon);
+            //ImageView dataIcon = getView().findViewById(R.id.data_icon);
+            ImageView connectIcon = getView().findViewById(R.id.connection_icon);
+
+            // 1. Update Network Status and Source
+            if (isNetworkAvailable()) {
+                networkStatus.setText("Connected");
+                networkSource.setText(getNetworkSource());
+
+                // 2. Calculate Network Speed
+                long currentTxBytes = TrafficStats.getTotalTxBytes();
+                long currentRxBytes = TrafficStats.getTotalRxBytes();
+                long currentTime = System.currentTimeMillis();
+
+                if (lastTime > 0) {
+                    long timeDelta = currentTime - lastTime;
+                    long bytesDelta = (currentTxBytes - lastTxBytes) + (currentRxBytes - lastRxBytes);
+                    if (timeDelta > 0) {
+                        double speed = (double) bytesDelta * 1000 / timeDelta;
+                        netSpeed.setText(formatSpeed(speed));
+                    }
+                }
+                lastTxBytes = currentTxBytes;
+                lastRxBytes = currentRxBytes;
+                lastTime = currentTime;
+
+                // 3. Get Ping in a background thread to avoid blocking the UI
+                new Thread(() -> {
+                    String pingResult = "N/A";
+                    try {
+                        String command = "ping -c 1 8.8.8.8"; // Ping Google's DNS once
+                        Process process = Runtime.getRuntime().exec(command);
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            if (line.contains("time=")) {
+                                String[] parts = line.split("time=");
+                                if (parts.length > 1) {
+                                    pingResult = parts[1].split(" ")[0] + " ms";
+                                }
+                                break;
+                            }
+                        }
+                        reader.close();
+                    } catch (IOException e) {
+                        pingResult = "Error";
+                    }
+
+                    final String finalPingResult = pingResult;
+                    // Update UI on the main thread
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> pingValue.setText(finalPingResult));
+                    }
+                }).start();
+
+            } else {
+                networkStatus.setText("Disconnected");
+                networkSource.setText("N/A");
+                pingValue.setText("N/A");
+                netSpeed.setText("0.0 B/s");
+                //wifiIcon.setVisibility(View.GONE);
+                //dataIcon.setVisibility(View.GONE);
+                //disconnectIcon.setVisibility(View.VISIBLE);
+                connectIcon.setImageResource(R.drawable.disconnect);
+            }
+
+            // Schedule the next update
+            if (networkUpdateHandler != null) {
+                networkUpdateHandler.postDelayed(this, REFRESH_DELAY_MS);
+            }
+        }
+    };
+
+
+    // for location
+    private void checkAndRequestLocationPermission() {
+        if (getContext() != null &&
+                androidx.core.content.ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted, so request it
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                android.widget.Toast.makeText(getContext(), "Location Permission Granted", android.widget.Toast.LENGTH_SHORT).show();
+
+                if (networkUpdateHandler != null) {
+                    // Remove any pending updates to avoid running twice in quick succession
+                    networkUpdateHandler.removeCallbacks(networkUpdateRunnable);
+                    // Post the runnable to run now
+                    networkUpdateHandler.post(networkUpdateRunnable);
+                }
+
+            } else {
+                android.widget.Toast.makeText(getContext(), "Location Permission is required to show Network Info.", android.widget.Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+
+    //onCreateView method
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
 //code starts here <<<<<<<<<<<<<
 
+//location permission
+        checkAndRequestLocationPermission();
+
 
 //chipset segment
-            TextView chipsetText = view.findViewById(R.id.chipset_cardview_text);
-            String rawHardware = getChipsetInfo();
-            String readableChipset = getReadableChipset(rawHardware);
-            chipsetText.setText(readableChipset);
+        TextView chipsetText = view.findViewById(R.id.chipset_cardview_text);
+
+        String rawHardware = getChipsetInfo();
+        String readableChipset = getReadableChipset(rawHardware);
+        chipsetText.setText(readableChipset);
 
 
 //device segment
-            TextView manufacturerName = view.findViewById(R.id.manufacturer_name);
-            TextView modelName = view.findViewById(R.id.model_name);
-            String brand_name = capitalizeFirstLetterOnly(Build.BRAND);
-            manufacturerName.setText(brand_name);
-            String mod_name = getCleanModelName();
-            modelName.setText(mod_name);
+        TextView manufacturerName = view.findViewById(R.id.manufacturer_name);
+        TextView modelName = view.findViewById(R.id.model_name);
+
+        String brand_name = capitalizeFirstLetterOnly(Build.BRAND);
+        manufacturerName.setText(brand_name);
+        String mod_name = getCleanModelName();
+        modelName.setText(mod_name);
 
 
 //android version segment
-            TextView osNumeber = view.findViewById(R.id.os_version_number);
-            TextView osName = view.findViewById(R.id.os_version_name);
-            osNumeber.setText("Android " + Build.VERSION.RELEASE);
-            String codename = getFormattedAndroidVersion();
-            osName.setText(codename);
+        TextView osNumeber = view.findViewById(R.id.os_version_number);
+        TextView osName = view.findViewById(R.id.os_version_name);
+
+        osNumeber.setText("Android " + Build.VERSION.RELEASE);
+        String codename = getFormattedAndroidVersion();
+        osName.setText(codename);
 
 
 //circuler progress view and live ram usage graph
-            CircularProgressView ramCircularProgress = view.findViewById(R.id.ram_usage_progrssbar);
-            RamLineGraphView ramLineGraphView = view.findViewById(R.id.ramLineGraph);
-            TextView graphUsedRam = view.findViewById(R.id.used_ram);
-            TextView graphFreeRam = view.findViewById(R.id.free_ram);
-            TextView progressText = view.findViewById(R.id.progress_percent);
-            TextView totalRam = view.findViewById(R.id.ram_total);
-            ramUpdateHandler = new Handler();
-            ramUpdateHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        CircularProgressView ramCircularProgress = view.findViewById(R.id.ram_usage_progrssbar);
+        RamLineGraphView ramLineGraphView = view.findViewById(R.id.ramLineGraph);
+        TextView graphUsedRam = view.findViewById(R.id.used_ram);
+        TextView graphFreeRam = view.findViewById(R.id.free_ram);
+        TextView progressText = view.findViewById(R.id.progress_percent);
+        TextView totalRam = view.findViewById(R.id.ram_total);
 
-                    ActivityManager activityManager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
-                    if (activityManager != null) {
-                        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-                        activityManager.getMemoryInfo(memoryInfo);
+        ramUpdateHandler = new Handler();
+        ramUpdateHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-                        long total_ram_mb = memoryInfo.totalMem / (1024 * 1024);
-                        long used_ram_mb = (memoryInfo.totalMem - memoryInfo.availMem) / (1024 * 1024);
-                        int ramPercentage = (int) ((used_ram_mb * 100) / total_ram_mb);
-                        ramCircularProgress.setProgress(ramPercentage);
-                        progressText.setText(ramPercentage + "%");
-                        totalRam.setText(total_ram_mb + " MB RAM Total");
+                ActivityManager activityManager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
+                if (activityManager != null) {
+                    ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+                    activityManager.getMemoryInfo(memoryInfo);
 
-                        ramLineGraphView.updateRamData(used_ram_mb);
-                        graphUsedRam.setText(used_ram_mb + " MB Used");
-                        graphFreeRam.setText((total_ram_mb - used_ram_mb) + " MB Free");
-                    }
-                    ramUpdateHandler.postDelayed(this, REFRESH_DELAY_MS);
+                    long total_ram_mb = memoryInfo.totalMem / (1024 * 1024);
+                    long used_ram_mb = (memoryInfo.totalMem - memoryInfo.availMem) / (1024 * 1024);
+                    int ramPercentage = (int) ((used_ram_mb * 100) / total_ram_mb);
+                    ramCircularProgress.setProgress(ramPercentage);
+                    progressText.setText(ramPercentage + "%");
+                    totalRam.setText(total_ram_mb + " MB RAM Total");
+
+                    ramLineGraphView.updateRamData(used_ram_mb);
+                    graphUsedRam.setText(used_ram_mb + " MB Used");
+                    graphFreeRam.setText((total_ram_mb - used_ram_mb) + " MB Free");
                 }
-            }, REFRESH_DELAY_MS);
+                ramUpdateHandler.postDelayed(this, REFRESH_DELAY_MS);
+            }
+        }, REFRESH_DELAY_MS);
 
 
 //Storage Information
-            TextView usedStorage = view.findViewById(R.id.used_storage);
-            TextView totalStorage = view.findViewById(R.id.total_storage);
-            TextView storagePercentage = view.findViewById(R.id.storage_Percentage);
-            ProgressBar storageProgressBar = view.findViewById(R.id.storage_progress_bar);
-            File path = Environment.getDataDirectory();
-            StatFs stat = new StatFs(path.getPath());
+        TextView usedStorage = view.findViewById(R.id.used_storage);
+        TextView totalStorage = view.findViewById(R.id.total_storage);
+        TextView storagePercentage = view.findViewById(R.id.storage_percentage);
+        TextView warningStorage = view.findViewById(R.id.warning_storage);
+        ProgressBar storageProgressBar = view.findViewById(R.id.storage_progress_bar);
 
-            long blockSize = stat.getBlockSizeLong();
-            long totalBlocks = stat.getBlockCountLong();
-            long availableBlocks = stat.getAvailableBlocksLong();
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
 
-            long totalSize = totalBlocks * blockSize;
-            long freeSize = availableBlocks * blockSize;
-            long usedSize = totalSize - freeSize;
-            int usedPercentage = (int) ((usedSize * 100) / totalSize);
+        long blockSize = stat.getBlockSizeLong();
+        long totalBlocks = stat.getBlockCountLong();
+        long availableBlocks = stat.getAvailableBlocksLong();
 
-            usedStorage.setText("Used : " + formatSize(usedSize));
-            totalStorage.setText("Total : " + formatSize(totalSize));
-            storagePercentage.setText(usedPercentage + "%");
-            storageProgressBar.setProgress(usedPercentage);
+        long totalSize = totalBlocks * blockSize;
+        long freeSize = availableBlocks * blockSize;
+        long usedSize = totalSize - freeSize;
+        int usedPercentage = (int) ((usedSize * 100) / totalSize);
 
+        usedStorage.setText("Used: " + formatSize(usedSize));
+        totalStorage.setText("Total: " + formatSize(totalSize));
+        storagePercentage.setText(usedPercentage + "%");
+        storageProgressBar.setProgress(usedPercentage);
 
-
-
-
-
-
-
-
-
+        if (usedPercentage >= 90f) { // Threshold of 45°C
+            warningStorage.setVisibility(View.VISIBLE);
+        } else {
+            warningStorage.setVisibility(View.GONE);
+        }
 
 
 
-            return view;
+
+//battery Information
+        TextView batteryState = view.findViewById(R.id.battery_state);
+        TextView batteryVoltage = view.findViewById(R.id.voltage_battery);
+        TextView batteryTemperature = view.findViewById(R.id.temp_battery);
+        TextView batteryPercentage = view.findViewById(R.id.battery_percentage);
+        TextView warningBattery = view.findViewById(R.id.warning_battery);
+        ProgressBar batteryProgressBar = view.findViewById(R.id.battery_progress_bar);
+
+        batteryInfoReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get battery level
+                int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                int batteryPct = (scale > 0) ? (int) ((level / (float) scale) * 100) : 0;
+
+                // Get battery status
+                int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+                String statusString = "Unknown";
+                switch (status) {
+                    case BatteryManager.BATTERY_STATUS_CHARGING:
+                        statusString = "Charging";
+                        break;
+                    case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                        statusString = "Discharging";
+                        break;
+                }
+
+                // Get battery voltage
+                int voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
+                float voltageFloat = (float) voltage / 1000.0f;
+
+                // Get battery temperature
+                int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
+                float tempFloat = (float) temperature / 10.0f;
+
+                // Add null checks to be safe in case the view is being destroyed
+                if(batteryPercentage != null) batteryPercentage.setText(String.format(Locale.US, "%d%%", batteryPct));
+                if(batteryProgressBar != null) batteryProgressBar.setProgress(batteryPct);
+                if(batteryState != null) batteryState.setText(String.format("Battery (%s)", statusString));
+                if(batteryVoltage != null) batteryVoltage.setText(String.format(Locale.US, "Voltage: %.2f V", voltageFloat));
+                if(batteryTemperature != null) batteryTemperature.setText(String.format(Locale.US, "Temperature: %.1f °C", tempFloat));
+
+                if (warningBattery != null) {
+                    if (tempFloat >= 45.0f) { // Threshold of 45°C
+                        warningBattery.setVisibility(View.VISIBLE);
+                    } else {
+                        warningBattery.setVisibility(View.GONE);
+                    }
+                }
+            }
+        };
+        // Register the receiver to start listening for battery updates
+        requireActivity().registerReceiver(batteryInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+
+
+
+//cpu core speed segment
+            GridLayout coreGrid = view.findViewById(R.id.cpu_core_grid);
+            int coreCount = getNumberOfCores();
+
+            // Ensure the grid is empty before adding new views
+            coreGrid.removeAllViews();
+            coreSpeedTextViews.clear();
+
+            for (int i = 0; i < coreCount; i++) {
+                // Inflate our corrected layout file
+                View coreView = getLayoutInflater().inflate(R.layout.item_core_speed, coreGrid, false);
+
+                TextView coreTitle = coreView.findViewById(R.id.core_title);
+                TextView coreSpeed = coreView.findViewById(R.id.core_speed);
+
+                coreTitle.setText("Core " + (i + 1));
+                coreSpeed.setText("... MHz");
+
+                // Add the speed TextView to our list for live updates
+                coreSpeedTextViews.add(coreSpeed);
+                // Add the finished core view to the grid
+                coreGrid.addView(coreView);
+            }
+
+            // Initialize the handler for live updates
+            cpuUpdateHandler = new Handler(Looper.getMainLooper());
+
+
+
+//sensor count
+        TextView sensorCount = view.findViewById(R.id.sensor_count);
+        SensorManager sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
+        List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        sensorCount.setText(String.valueOf(sensorList.size()));
+
+
+//app count
+        TextView appCount = view.findViewById(R.id.app_count);
+        PackageManager packageManager = requireActivity().getPackageManager();
+        List<ApplicationInfo> appList = packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
+        appCount.setText(String.valueOf(appList.size()));
+
+
+
+ //network segment
+        networkUpdateHandler = new Handler(Looper.getMainLooper());
+
+
+
+
+
+
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Start the handler when the fragment becomes visible
+        if (cpuUpdateHandler != null) {
+            cpuUpdateHandler.post(cpuUpdateRunnable);
+        }
+        if (networkUpdateHandler != null) {
+            networkUpdateHandler.post(networkUpdateRunnable);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Stop the handler when the fragment is no longer visible
+        if (cpuUpdateHandler != null) {
+            cpuUpdateHandler.removeCallbacks(cpuUpdateRunnable);
+        }
+        if (networkUpdateHandler != null) {
+            networkUpdateHandler.removeCallbacks(networkUpdateRunnable);
+        }
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Stop the CPU updater to prevent leaks
+        if (cpuUpdateHandler != null) {
+            cpuUpdateHandler.removeCallbacksAndMessages(null);
+            cpuUpdateHandler = null;
+        }
+        // Stop the RAM updater to prevent leaks
+        if (ramUpdateHandler != null) {
+            ramUpdateHandler.removeCallbacksAndMessages(null);
+            ramUpdateHandler = null;
+        }
+        // Unregister the battery receiver to prevent leaks
+        if (batteryInfoReceiver != null) {
+            requireActivity().unregisterReceiver(batteryInfoReceiver);
+            batteryInfoReceiver = null;
+        }
+        //stop the network updater to prevent leaks
+        if (networkUpdateHandler != null) {
+            networkUpdateHandler.removeCallbacksAndMessages(null);
+            networkUpdateHandler = null;
+        }
+    }
+
+}

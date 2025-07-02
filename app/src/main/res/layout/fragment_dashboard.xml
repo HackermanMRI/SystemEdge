@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EAEAEA">
+        android:background="#DDE7F6">
 
 
         <androidx.cardview.widget.CardView
@@ -33,8 +33,8 @@
                     android:id="@+id/device_icon"
                     android:layout_width="43dp"
                     android:layout_height="20dp"
+                    android:rotation="90"
                     android:src="@drawable/smartphone_w"
-
                     app:layout_constraintBottom_toTopOf="@+id/manufacturer_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -61,13 +61,11 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/manufacturer_name"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.cardview.widget.CardView>
 
@@ -77,7 +75,6 @@
             android:layout_height="81dp"
             app:cardBackgroundColor="#1D254E"
             app:cardCornerRadius="16dp"
-
             app:layout_constraintBottom_toTopOf="@+id/ram_usage_cardview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.907"
@@ -120,13 +117,11 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.513"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/os_version_number"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.cardview.widget.CardView>
 
@@ -143,7 +138,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.141">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -151,103 +146,76 @@
                     android:id="@+id/ram_usage_progrssbar"
                     android:layout_width="112dp"
                     android:layout_height="109dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="6dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="248dp"
-                    android:layout_marginBottom="22dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.15" />
 
                 <TextView
                     android:id="@+id/progress_percent"
-                    android:layout_width="67dp"
-                    android:layout_height="38dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="271dp"
-                    android:layout_marginBottom="58dp"
-                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="100%"
-                    android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintEnd_toEndOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintStart_toStartOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintTop_toTopOf="@+id/ram_usage_progrssbar" />
 
                 <TextView
                     android:id="@+id/ram_total"
-                    android:layout_width="114dp"
-                    android:layout_height="17dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="113dp"
-                    android:layout_marginEnd="247dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:text="00000 MB Total"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp" />
-
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintStart_toStartOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintTop_toBottomOf="@+id/ram_usage_progrssbar" />
 
                 <TextView
                     android:id="@+id/used_ram"
-                    android:layout_width="85dp"
-                    android:layout_height="17dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="262dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="19dp"
-                    android:layout_marginBottom="111dp"
-                    android:gravity="right"
                     android:text="0000 MB Used"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/free_ram"
-                    android:layout_width="113dp"
-                    android:layout_height="16dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="234dp"
-                    android:layout_marginTop="113dp"
-                    android:layout_marginEnd="19dp"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="right"
-                    android:text="0000 MB Free"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.example.systemedge.RamLineGraphView
                     android:id="@+id/ramLineGraph"
-                    android:layout_width="206dp"
-                    android:layout_height="85dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="141dp"
-                    android:layout_marginTop="21dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="19dp"
-                    android:layout_marginBottom="30dp" />
+                    app:layout_constraintBottom_toTopOf="@id/free_ram"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/ram_usage_progrssbar"
+                    app:layout_constraintTop_toBottomOf="@+id/used_ram"
+                    app:layout_constraintVertical_bias="0.0" />
 
+                <TextView
+                    android:id="@+id/free_ram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginBottom="7dp"
+                    android:text="0000 MB Free"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            </RelativeLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -256,13 +224,13 @@
             android:layout_width="365dp"
             android:layout_height="35dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ram_usage_cardview"
-            app:layout_constraintVertical_bias="0.017">
+            app:layout_constraintVertical_bias="0.014">
 
             <TextView
                 android:id="@+id/chipset_cardview_text"
@@ -270,9 +238,58 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="chipset name here"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cpu_cardView"
+            android:layout_width="365dp"
+            android:layout_height="144dp"
+            app:cardBackgroundColor="#022E47"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipset_cardView"
+            app:layout_constraintVertical_bias="0.014">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/cpu_temp_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="CPU Temperature: 42.5 °C" />
+
+                <GridLayout
+                    android:id="@+id/cpu_core_grid"
+                    android:layout_width="349dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="8dp"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="4"
+                    android:columnOrderPreserved="false"
+                    android:rowCount="2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cpu_temp_value"
+                    app:layout_constraintVertical_bias="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -280,14 +297,13 @@
             android:id="@+id/storage_cardView"
             android:layout_width="365dp"
             android:layout_height="96dp"
-            android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipset_cardView"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/cpu_cardView"
+            app:layout_constraintVertical_bias="0.018">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -321,12 +337,12 @@
                     android:layout_marginEnd="163dp"
                     android:layout_marginBottom="61dp"
                     android:text="Internal Storage"
-                    android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/storage_Percentage"
+                    android:id="@+id/storage_percentage"
                     android:layout_width="42dp"
                     android:layout_height="16dp"
                     android:layout_alignParentStart="true"
@@ -338,9 +354,9 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="42dp"
                     android:text="100%"
-                    android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <ProgressBar
                     android:id="@+id/storage_progress_bar"
@@ -372,9 +388,9 @@
                     android:layout_marginEnd="163dp"
                     android:layout_marginBottom="21dp"
                     android:text="Used : 000.00 GB"
-                    android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/total_storage"
@@ -389,12 +405,30 @@
                     android:layout_marginEnd="46dp"
                     android:layout_marginBottom="22dp"
                     android:text="Total : 000.00 GB"
-                    android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/warning_storage"
+                    android:layout_width="199dp"
+                    android:layout_height="17dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="82dp"
+                    android:layout_marginTop="78dp"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="*low space can reduce performance"
+                    android:textAlignment="center"
+                    android:textColor="#761212"
+                    android:textSize="11sp" />
 
 
             </RelativeLayout>
+
 
         </androidx.cardview.widget.CardView>
 
@@ -408,16 +442,395 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storage_cardView"
-            app:layout_constraintVertical_bias="0.043">
+            app:layout_constraintVertical_bias="0.022">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/batteryIcon"
+                    android:layout_width="63dp"
+                    android:layout_height="58dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginEnd="296dp"
+                    android:layout_marginBottom="19dp"
+                    android:rotation="-90"
+                    android:src="@drawable/battery"
+                    app:tint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/battery_state"
+                    android:layout_width="177dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="116dp"
+                    android:layout_marginBottom="58dp"
+                    android:text="Battery (Charging state)"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/battery_percentage"
+                    android:layout_width="42dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="313dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="42dp"
+                    android:text="100%"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    android:id="@+id/battery_progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="228dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="33dp"
+                    android:layout_marginEnd="65dp"
+                    android:layout_marginBottom="33dp"
+                    android:progress="80"
+                    android:progressBackgroundTint="#1D254E"
+                    android:progressTint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/voltage_battery"
+                    android:layout_width="104dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="59dp"
+                    android:layout_marginEnd="189dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="Voltage: 0.00 V"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/temp_battery"
+                    android:layout_width="144dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="176dp"
+                    android:layout_marginTop="59dp"
+                    android:layout_marginEnd="45dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="Temparature: 00.0 °C"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/warning_battery"
+                    android:layout_width="163dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="99dp"
+                    android:layout_marginTop="78dp"
+                    android:layout_marginEnd="103dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="*temperature is too high"
+                    android:textAlignment="center"
+                    android:textColor="#761212"
+                    android:textSize="11sp" />
+
+
             </RelativeLayout>
+
+
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/network_cardview"
+            android:layout_width="365dp"
+            android:layout_height="55dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/battery_cardView"
+            app:layout_constraintVertical_bias="0.045">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/connection_icon"
+                    android:layout_width="41dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#1D254E" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/speed_card"
+                    android:layout_width="95dp"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/speed_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="3dp"
+                            android:text="Speed"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/net_speed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:text="000.0 MB/s"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ping_card"
+                    android:layout_width="66dp"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/speed_card"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="3dp"
+                            android:text="Ping"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/ping"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:text="999"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/network_status"
+                    android:layout_width="129dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="12dp"
+                    android:text="Disconnected"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/network_source"
+                    app:layout_constraintEnd_toStartOf="@+id/ping_card"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@id/connection_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/network_source"
+                    android:layout_width="139dp"
+                    android:layout_height="23dp"
+                    android:text="network source here"
+                    android:textColor="@color/gray_600"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/network_status"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/network_status"
+                    app:layout_constraintTop_toBottomOf="@id/network_status" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sensor_cardview"
+            android:layout_width="170dp"
+            android:layout_height="69dp"
+            android:layout_marginEnd="15dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/apps_cardview"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_cardview"
+            app:layout_constraintVertical_bias="0.09">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/sensor_icon"
+                    android:layout_width="49dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/wifi_signal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/sensor_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="999"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/sensor_label"
+                    app:layout_constraintStart_toEndOf="@id/sensor_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/sensor_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sensors"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/sensor_count"
+                    app:layout_constraintTop_toBottomOf="@id/sensor_count" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/apps_cardview"
+            android:layout_width="170dp"
+            android:layout_height="69dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sensor_cardview"
+            app:layout_constraintTop_toBottomOf="@+id/network_cardview"
+            app:layout_constraintVertical_bias="0.09">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="49dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/play_store"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#1D254E" />
+
+                <TextView
+                    android:id="@+id/app_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="999"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/app_label"
+                    app:layout_constraintStart_toEndOf="@id/app_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/app_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apps"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/app_count"
+                    app:layout_constraintTop_toBottomOf="@id/app_count" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

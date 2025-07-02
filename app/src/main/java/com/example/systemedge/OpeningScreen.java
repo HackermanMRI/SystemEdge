@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.activity.EdgeToEdge;
 import android.os.Handler;
 import android.content.Intent;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.widget.ImageView;
 import androidx.core.graphics.Insets;
@@ -53,11 +54,15 @@ public class OpeningScreen extends AppCompatActivity {
 
  //permission check
         checkAndRequestPermissions();
+
     }
 
 
 
 //custom methods
+
+
+
 private void checkAndRequestPermissions() {
     if (allPermissionsGranted()) {
         // All permissions already granted
