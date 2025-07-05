@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.systemedge"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.systemedge"
@@ -52,9 +52,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.play.services.ads.identifier)
+}
 
 //custom additions
 
 
-}
 

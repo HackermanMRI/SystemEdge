@@ -93,7 +93,7 @@ public class DashboardFragment extends Fragment {
         try (BufferedReader reader = new BufferedReader(new FileReader("/proc/cpuinfo"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.toLowerCase().contains("hardware")) {
+                if (line.contains("Hardware")) {
                     hardware = line.split(":")[1].trim();
                     break;
                 }

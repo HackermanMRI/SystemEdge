@@ -240,7 +240,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="chipset name here"
-                android:textColor="@color/black"
+                android:textColor="#022E47"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -339,7 +339,7 @@
                     android:layout_marginEnd="163dp"
                     android:layout_marginBottom="61dp"
                     android:text="Internal Storage"
-                    android:textColor="@android:color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -356,7 +356,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="41dp"
                     android:text="100%"
-                    android:textColor="@android:color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -390,8 +390,8 @@
                     android:layout_marginEnd="163dp"
                     android:layout_marginBottom="16dp"
                     android:text="Used : 000.00 GB"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textColor="#022E47"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -407,8 +407,8 @@
                     android:layout_marginEnd="35dp"
                     android:layout_marginBottom="16dp"
                     android:text="Total : 000.00 GB"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textColor="#022E47"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -479,7 +479,7 @@
                     android:layout_marginEnd="116dp"
                     android:layout_marginBottom="58dp"
                     android:text="Battery (Charging state)"
-                    android:textColor="@android:color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -496,7 +496,7 @@
                     android:layout_marginEnd="11dp"
                     android:layout_marginBottom="39dp"
                     android:text="100%"
-                    android:textColor="@android:color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -530,8 +530,8 @@
                     android:layout_marginEnd="189dp"
                     android:layout_marginBottom="13dp"
                     android:text="Voltage: 0.00 V"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textColor="#022E47"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -547,8 +547,8 @@
                     android:layout_marginEnd="45dp"
                     android:layout_marginBottom="12dp"
                     android:text="Temparature: 00.0 °C"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textColor="#022E47"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -624,7 +624,7 @@
                             android:layout_marginTop="3dp"
                             android:text="Speed"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="#022E47"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -636,7 +636,7 @@
                             android:layout_marginBottom="5dp"
                             android:gravity="center"
                             android:text="000.0 MB/s"
-                            android:textColor="@color/black"
+                            android:textColor="#022E47"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -665,7 +665,7 @@
                             android:layout_marginTop="3dp"
                             android:text="Ping"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="#022E47"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -677,7 +677,7 @@
                             android:layout_marginBottom="5dp"
                             android:gravity="center"
                             android:text="999"
-                            android:textColor="@color/black"
+                            android:textColor="#022E47"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -689,7 +689,7 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
                     android:text="Disconnected"
-                    android:textColor="@color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/network_source"
@@ -754,7 +754,7 @@
                     android:layout_marginStart="8dp"
                     android:gravity="center"
                     android:text="999"
-                    android:textColor="@color/black"
+                    android:textColor="#022E47"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/sensor_label"
@@ -766,8 +766,9 @@
                     android:id="@+id/sensor_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Sensors"
-                    android:textColor="@color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -813,7 +814,7 @@
                     android:layout_marginStart="8dp"
                     android:gravity="center"
                     android:text="999"
-                    android:textColor="@color/black"
+                    android:textColor="#022E47"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/app_label"
@@ -823,10 +824,11 @@
 
                 <TextView
                     android:id="@+id/app_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Apps"
-                    android:textColor="@color/black"
+                    android:textColor="#022E47"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -842,9 +844,9 @@
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
             android:foregroundGravity="center"
             app:cardCornerRadius="12dp"
-            android:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/apps_cardview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.3"

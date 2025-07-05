@@ -1,29 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.systemedge.CustomNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    tools:context=".SoftwareFragment">
 
     <LinearLayout
+        android:id="@+id/main_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="8dp"
+        android:layout_marginBottom="100dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chipsets Fragment Content"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/icon_android"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/hardware"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="#022E47"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/text_android_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="version"
+                        android:textStyle="bold"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textSize="17sp"
+                        android:textColor="#022E47"
+                        app:layout_constraintStart_toEndOf="@id/icon_android"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_android_version_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="version name"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="#022E47"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/text_android_version"
+                        app:layout_constraintTop_toBottomOf="@id/text_android_version" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="#022E47" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CPU"
+                    android:textColor="#1D254E"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+
+                <!-- THIS IS THE CONTAINER FOR DYNAMIC ROWS IN CARD 1 -->
+                <LinearLayout
+                    android:id="@+id/container_card_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Your long text content goes here... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text..."
-            android:textSize="16sp" />
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GPU"
+                    android:textColor="#1D254E"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- THIS IS THE CONTAINER FOR DYNAMIC ROWS IN CARD 1 -->
+                <LinearLayout
+                    android:id="@+id/container_card_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+</com.example.systemedge.CustomNestedScrollView>

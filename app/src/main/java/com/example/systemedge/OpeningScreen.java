@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import android.animation.AnimatorSet;
+import android.location.LocationManager;
+import android.content.pm.PackageManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Build;
 import android.os.BatteryManager;
 import android.content.Context;
 import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.activity.EdgeToEdge;
 import android.os.Handler;
 import android.content.Intent;
@@ -26,10 +29,13 @@ import androidx.annotation.RequiresApi;
 import android.widget.Toast;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 
 
 public class OpeningScreen extends AppCompatActivity {
+
+    private LocationManager locationManager;
 
     private static final int PERMISSION_REQUEST_CODE = 101;
 
@@ -40,6 +46,7 @@ public class OpeningScreen extends AppCompatActivity {
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,7 @@ public class OpeningScreen extends AppCompatActivity {
 
  //permission check
         checkAndRequestPermissions();
+
 
     }
 

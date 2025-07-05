@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    tools:context=".AppsFragment">
 
+    <!-- Header Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/app_count_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="apps Info"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textAppearance="?attr/textAppearanceBody1"
+            tools:text="29"
+            android:textColor="@color/value_color"/>
 
-        <TextView
+        <Spinner
+            android:id="@+id/app_filter_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/analyze_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Your long text content goes here... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text..."
-            android:textSize="16sp" />
+            android:text="Analyze"
+            android:backgroundTint="@color/value_color"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    <!-- List of Apps -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/list_item_app" />
+
+</LinearLayout>

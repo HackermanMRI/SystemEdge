@@ -3,30 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-
     app:startDestination="@+id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigatione_system"
         android:name="com.example.systemedge.SystemFragment"
-
         tools:layout="@layout/fragment_system" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.systemedge.DashboardFragment"
-
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_hardware"
         android:name="com.example.systemedge.HardwareFragment"
-
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_hardware" />
 
     <fragment
         android:id="@+id/navigation_scan"
         android:name="com.example.systemedge.TestingFragment"
-
         tools:layout="@layout/fragment_testing" />
 </navigation>

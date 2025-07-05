@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
+
+
+    <TextView
+        android:id="@+id/text_key"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:textColor="@color/key_color"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        android:textSize="12sp"
+        tools:text="Build fingerprint (can be a very long key that wraps)" />
+
+
+    <TextView
+        android:id="@+id/text_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:textColor="@color/value_color"
+        android:textSize="12sp"
+        tools:text="POCO/gram_in/gram:12/SKQ1.211019.001/V14.0.5.0.SJPINXM:user/release-keys" />
+
+
+
+</LinearLayout>

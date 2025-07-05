@@ -19,7 +19,7 @@
             android:id="@+id/core_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#022E47"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/core_speed"
