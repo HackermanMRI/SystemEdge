@@ -1,29 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    tools:context=".CameraFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:baselineAligned="false">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_back_camera"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="camera Fragment Content"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="#022e47"
+            app:contentPadding="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/back_camera_mp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="00.0 MP - Rear" />
+
+                <TextView
+                    android:id="@+id/back_camera_resolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tools:text="0000x0000" />
+
+                <TextView
+                    android:id="@+id/back_camera_focal_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tools:text="0.00 mm" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_front_camera"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Your long text content goes here... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text..."
-            android:textSize="16sp" />
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="#022e47"
+            app:contentPadding="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/front_camera_mp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="00.0 MP - Front" />
+
+                <TextView
+                    android:id="@+id/front_camera_resolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tools:text="0000x0000" />
+
+                <TextView
+                    android:id="@+id/front_camera_focal_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tools:text="0.00 mm" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        app:contentPadding="12dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp"
+        android:backgroundTint="@color/white"
+        android:layout_marginTop="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_camera_properties"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

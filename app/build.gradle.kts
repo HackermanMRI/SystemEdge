@@ -53,6 +53,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.play.services.ads.identifier)
+    implementation(libs.biometric)
 }
 
 //custom additions

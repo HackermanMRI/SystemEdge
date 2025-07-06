@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    tools:context=".SensorsFragment">
+
+    <!-- Header TextView to show the total number of available sensors -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sensors Fragment Content"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Your long text content goes here... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text... \n\nMore text..."
-            android:textSize="16sp" />
+        android:orientation="horizontal"
+        android:padding="0dp"
+        android:gravity="center_vertical">
+    <TextView
+        android:id="@+id/sensor_count_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textColor="#333"
+        tools:text="29 Sensors are available on your device" />
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    <!-- RecyclerView to display the list of sensors -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sensors_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/list_item_sensor" />
+
+</LinearLayout>

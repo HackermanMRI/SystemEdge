@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Sensor Icon -->
+        <ImageView
+            android:id="@+id/sensor_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#022E47"
+            tools:src="@drawable/ic_sensor_placeholder" /> <!-- Placeholder icon -->
+
+        <!-- Main Sensor Name (e.g., ACCELEROMETER) -->
+        <TextView
+            android:id="@+id/sensor_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textStyle="bold"
+            android:textColor="#022e47"
+            app:layout_constraintStart_toEndOf="@id/sensor_icon"
+            app:layout_constraintTop_toTopOf="@id/sensor_icon"
+            app:layout_constraintBottom_toBottomOf="@id/sensor_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="ACCELEROMETER" />
+
+        <!-- Container for the detailed sensor properties -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/sensor_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Industrial Name -->
+            <TextView
+                android:id="@+id/sensor_industrial_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="12sp"
+                android:textColor="@color/key_color"
+                tools:text="Name: bmi160 Accelerometer Non-wakeup" />
+
+            <!-- Vendor -->
+            <TextView
+                android:id="@+id/sensor_vendor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="12sp"
+                android:textColor="@color/key_color"
+                tools:text="Vendor: BOSCH" />
+
+            <!-- Wake Up Sensor -->
+            <TextView
+                android:id="@+id/sensor_wakeup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="12sp"
+                android:textColor="@color/key_color"
+                tools:text="Wake Up Sensor: No" />
+
+            <!-- Power Consumption -->
+            <TextView
+                android:id="@+id/sensor_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="12sp"
+                android:textColor="@color/key_color"
+                tools:text="Power: 0.18mA" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

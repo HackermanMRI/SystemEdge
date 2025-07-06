@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Arrays;
 
 import android.util.DisplayMetrics;
+import java.util.concurrent.TimeUnit;
 import android.provider.Settings;
 
 
@@ -193,14 +194,60 @@ public class DisplayFragment extends Fragment {
         }
     }
 
-    private String getScreenTimeout(Context context) {
+    /*private String getScreenTimeout(Context context) {
         try {
             int timeoutMillis = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT);
             return (timeoutMillis / 1000) + " Seconds";
         } catch (Settings.SettingNotFoundException e) {
             return "Unknown";
         }
+    }*/
+
+    private String getScreenTimeout(Context context) {
+        try {
+            // Get the timeout in milliseconds from system settings
+            int timeoutMillis = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT);
+
+            // Some devices use a very large value to represent "Never".
+            // We check against a reasonable threshold (e.g., 1 day in millis) or Integer.MAX_VALUE.
+            if (timeoutMillis == Integer.MAX_VALUE || timeoutMillis > TimeUnit.DAYS.toMillis(1)) {
+                return "Never";
+            }
+
+            // Convert milliseconds to larger units
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(timeoutMillis);
+            long hours = TimeUnit.MILLISECONDS.toHours(timeoutMillis);
+
+            // If the timeout is 1 hour or more, display in hours
+            if (hours >= 1) {
+                return formatUnit(hours, "Hour");
+            }
+
+            // If the timeout is 1 minute or more, display in minutes
+            if (minutes >= 1) {
+                return formatUnit(minutes, "Minute");
+            }
+
+            // Otherwise, display in seconds
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(timeoutMillis);
+            return formatUnit(seconds, "Second");
+
+        } catch (Settings.SettingNotFoundException e) {
+            // Log the error for debugging purposes
+            e.printStackTrace();
+            return "Unknown";
+        }
     }
+
+    private String formatUnit(long value, String unit) {
+        if (value == 1) {
+            return value + " " + unit;
+        }
+        return value + " " + unit + "s";
+    }
+
+
+
 
     private String getDensityBucket(DisplayMetrics metrics) {
         int density = metrics.densityDpi;

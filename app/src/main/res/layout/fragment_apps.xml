@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AppsFragment">
+    tools:context=".AppsFragment"
+    >
 
     <!-- Header Section -->
     <LinearLayout
@@ -45,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:listitem="@layout/list_item_app" />
+        tools:listitem="@layout/list_item_app"
+        android:layout_marginBottom="60dp"/>
 
 </LinearLayout>

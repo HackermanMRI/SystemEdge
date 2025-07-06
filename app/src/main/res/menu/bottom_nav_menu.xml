@@ -5,18 +5,22 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
+        android:iconTint="@color/value_color"
         android:title="@string/title_dashboard" />
     <item
         android:id="@+id/navigatione_system"
         android:icon="@drawable/system"
+        android:iconTint="@color/value_color"
         android:title="System" />
     <item
         android:id="@+id/navigation_hardware"
         android:icon="@drawable/hardware"
+        android:iconTint="@color/value_color"
         android:title="Hardware" />
     <item
         android:id="@+id/navigation_scan"
         android:icon="@drawable/speedometer"
+        android:iconTint="@color/value_color"
         android:title="Test" />
 
 </menu>

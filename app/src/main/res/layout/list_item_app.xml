@@ -54,11 +54,12 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/app_name"
             app:layout_constraintStart_toStartOf="@id/app_name"
             app:layout_constraintTop_toBottomOf="@id/app_name"
             tools:text="com.example.app"
-            android:textColor="@color/value_color"/>
+            android:textColor="@color/key_color"/>
 
         <!-- App Version -->
         <TextView
@@ -70,7 +71,8 @@
             app:layout_constraintStart_toStartOf="@id/app_name"
             app:layout_constraintTop_toBottomOf="@id/app_package_name"
             tools:text="1.0.0 (1)"
-            android:textColor="@color/value_color"/>
+            android:textColor="@color/key_color"
+            android:textSize="12sp"/>
 
         <!-- Target API Level -->
         <TextView

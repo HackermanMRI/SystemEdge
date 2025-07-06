@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f2f5"
+    tools:context=".EarSpeakerTestActivity">
+
+    <ImageView
+        android:id="@+id/ear_speaker_image"
+        android:layout_width="341dp"
+        android:layout_height="358dp"
+        android:layout_marginTop="112dp"
+        android:contentDescription="Ear Speaker"
+        android:src="@drawable/earspeaker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/instruction_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Hold phone near to your ear. \nCan you hear the sound?"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textSize="16sp"
+        android:textColor="@color/value_color"
+        app:layout_constraintBottom_toTopOf="@+id/button_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_no"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="48dp"
+        android:text="NO"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:backgroundTint="#9D1843"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_yes"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="48dp"
+        android:text="YES"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:backgroundTint="#1C7F20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
