@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -8,14 +9,90 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="60dp"
+        tools:context=".RunBenchmarkFragment">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="benchmark Content"
-            android:textSize="22sp"
+            android:text="System Benchmark"
+            android:textSize="24sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Start Benchmark" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:max="100"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:text="Running CPU Test..."
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/scoreTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Overall Score"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/finalScoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:textColor="@color/value_color"
+            tools:text="8520" />
+
+        <LinearLayout
+            android:id="@+id/resultsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView android:id="@+id/cpuResultText" style="@style/ResultTextStyle" tools:text="CPU: 3500 M-ops/sec" />
+            <TextView android:id="@+id/gpuResultText" style="@style/ResultTextStyle" tools:text="GPU: 120 FPS" />
+            <TextView android:id="@+id/memoryResultText" style="@style/ResultTextStyle" tools:text="Memory: 10.2 GB/s" />
+            <TextView android:id="@+id/storageResultText" style="@style/ResultTextStyle" tools:text="Storage: 450 MB/s Read" />
+            <TextView android:id="@+id/thermalResultText" style="@style/ResultTextStyle" tools:text="Thermal: OK, 38°C" />
+            <TextView android:id="@+id/batteryResultText" style="@style/ResultTextStyle" tools:text="Battery Drop: 1%" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/exportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Export Results"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

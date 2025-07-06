@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f2f5"
     tools:context=".StorageTestActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/results_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/AnalysisCard">
+                <LinearLayout style="@style/CardInnerLayout">
+                    <TextView style="@style/CardTitle" android:text="Redundant Files" />
+                    <TextView android:id="@+id/redundant_files_result" style="@style/CardResult" tools:text="0 Files (0.0 MB)" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/AnalysisCard">
+                <LinearLayout style="@style/CardInnerLayout">
+                    <TextView style="@style/CardTitle" android:text="Large Files (>100MB)" />
+                    <TextView android:id="@+id/large_files_result" style="@style/CardResult" tools:text="0 Files (0.0 MB)" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/AnalysisCard">
+                <LinearLayout style="@style/CardInnerLayout">
+                    <TextView style="@style/CardTitle" android:text="Duplicate Files" />
+                    <TextView android:id="@+id/duplicate_files_result" style="@style/CardResult" tools:text="0 Files (0.0 MB)" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/AnalysisCard">
+                <LinearLayout style="@style/CardInnerLayout">
+                    <TextView style="@style/CardTitle" android:text="Screenshots" />
+                    <TextView android:id="@+id/screenshots_result" style="@style/CardResult" tools:text="0 Files (0.0 MB)" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

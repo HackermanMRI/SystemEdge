@@ -54,6 +54,11 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.play.services.ads.identifier)
     implementation(libs.biometric)
+    implementation(libs.fragment.ktx)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.gson)
+
+
 }
 
 //custom additions

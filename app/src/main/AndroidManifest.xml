@@ -16,6 +16,8 @@
     <uses-permission
         android:name="android.permission.BATTERY_STATS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -25,16 +27,13 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-
-
-
 
     <application
         android:allowBackup="true"
@@ -46,6 +45,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SystemEdge"
         tools:targetApi="31">
+        <activity
+            android:name=".MultiTouchTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TouchTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WhiteBalanceTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScreenColorTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SaturationTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GrayscaleTestActivity"
+            android:exported="false" />
         <activity
             android:name=".VolumeDownTestActivity"
             android:exported="false" />

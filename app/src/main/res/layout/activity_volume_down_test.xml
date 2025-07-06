@@ -2,9 +2,82 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f2f5"
     tools:context=".VolumeDownTestActivity">
+
+    <ImageView
+        android:id="@+id/volume_down_image"
+        android:layout_width="250dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="100dp"
+        android:contentDescription="Volume Down"
+        android:src="@drawable/ic_test_volume_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/value_color"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volume_down_image"
+        tools:text="Volume Down Pressed!" />
+
+    <TextView
+        android:id="@+id/instruction_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
+        android:text="Press the VOLUME DOWN button"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textSize="16sp"
+        android:textColor="@color/value_color"
+        app:layout_constraintBottom_toTopOf="@+id/button_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_no"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="48dp"
+        android:text="FAIL"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#9D1843"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_yes"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="48dp"
+        android:text="PASS"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#1C7F20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

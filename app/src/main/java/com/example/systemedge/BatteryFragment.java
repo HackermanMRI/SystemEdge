@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
+import android.content.SharedPreferences;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -62,6 +63,9 @@ public class BatteryFragment extends Fragment {
 
     private Handler liveUpdateHandler;
     private Runnable liveUpdateRunnable;
+
+    private static final String PREFS_NAME = "BatteryHealthPrefs";
+    private static final String KEY_SAVED_MAX_CAPACITY = "savedMaxCapacity";
 
 
     //methods
@@ -273,8 +277,32 @@ public class BatteryFragment extends Fragment {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         int percentage = (int) ((level / (float) scale) * 100);
-        int maxChargeCapacity = calculateMaxCapacityPercentage(percentage, chargeCounter / 1000, capacity);
-        addRowToContainer(containerCard2, "Maximum Charging Capacity", maxChargeCapacity + "%", R.color.purple_700);
+
+
+        //int maxChargeCapacity = calculateMaxCapacityPercentage(percentage, chargeCounter / 1000, capacity);
+        //addRowToContainer(containerCard2, "Maximum Charging Capacity", maxChargeCapacity + "%", R.color.purple_700);
+
+        // --- NEW LOGIC FOR MAXIMUM CAPACITY ---
+        // 1. Calculate the current maximum capacity
+        int currentMaxCapacity = calculateMaxCapacityPercentage(percentage, chargeCounter / 1000, capacity);
+
+        // 2. Get the previously stored maximum capacity
+        int storedMaxCapacity = getStoredMaxCapacity(requireContext());
+
+        // 3. Determine the final value to show (the smaller of the two)
+        int finalMaxCapacityToShow = Math.min(currentMaxCapacity, storedMaxCapacity);
+
+        // 4. If the current value is smaller, it's a new "lowest" value, so save it.
+        // We also save it if the stored value is the default (101), meaning nothing was saved before.
+        if (currentMaxCapacity < storedMaxCapacity) {
+            saveMaxCapacity(requireContext(), currentMaxCapacity);
+        }
+
+        // 5. Add the final, most accurate value to the container
+        addRowToContainer(containerCard2, "Maximum Charging Capacity", finalMaxCapacityToShow + "%", R.color.purple_700);
+        // ------------------------------------
+
+
 
         // Get cycle count
         String cycleCount = readSystemFile("/sys/class/power_supply/battery/cycle_count");
@@ -296,6 +324,33 @@ public class BatteryFragment extends Fragment {
 
 
     // --- Helper Methods (Unchanged) ---
+
+
+    /**
+     * Saves the given maximum capacity value to SharedPreferences.
+     * @param context The application context.
+     * @param capacity The integer value to save.
+     */
+    private void saveMaxCapacity(Context context, int capacity) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY_SAVED_MAX_CAPACITY, capacity);
+        editor.apply();
+    }
+
+    /**
+     * Retrieves the stored maximum capacity from SharedPreferences.
+     * @param context The application context.
+     * @return The stored integer value, or 101 if nothing is stored.
+     */
+    private int getStoredMaxCapacity(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        // Return 101 as a default. Any valid calculation (<=100) will be smaller,
+        // so the first calculated value will always be saved.
+        return prefs.getInt(KEY_SAVED_MAX_CAPACITY, 101);
+    }
+
+
 
     private int calculateMaxCapacityPercentage(int percentage, long remainingMah, double designCapacityMah) {
         if (percentage <= 0 || designCapacityMah <= 0) {
